@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %} Profile {% endblock %}
+
+{% block content %}
+    <style>
+        /* CSS styles specific to profile page */
+        .profile-container {
+            text-align: center;
+            margin-top: 20px;
+            background-color: #f0f0f0; /* Light gray background color */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .profile-image {
+            border-radius: 55px;
+        }
+
+        .profile-details {
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff; /* Blue background color */
+            color: #fff; /* White text color */
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-right: 10px; /* Adjust spacing between buttons */
+        }
+
+        .button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+    </style>
+
+    <div class="profile-container">
+        <h1>Profile</h1>
+        <img class="profile-image" alt="user-image" src="{{ user.image.url }}" height="100px"><br>
+        <div class="profile-details">
+            <strong>Username:</strong> {{ user.username }}<br>
+            <strong>First name:</strong> {{ user.first_name }}<br>
+            <strong>Last name:</strong> {{ user.last_name }}<br>
+            <strong>Email:</strong> {{ user.email }}<br>
+        </div>
+
+        <a class="button" href="{% url 'users:edit-profile' %}">Edit Profile</a>
+        <a class="button" href="{% url 'chat:home' %}">Home</a>
+    </div>
+
+{% endblock content %}

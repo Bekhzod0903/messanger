@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}{{user.username}}{% endblock %}
+{% block content %}
+
+<div>
+    <h2>Messages between {{ user.username }} and {{ request.user.username }}</h2>
+    <ul class="messages-list">
+        {% for message in messages %}
+        <li class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+            <p>{{ message.text }}</p>
+            {% if message.attachment %}
+            <p><a href="{{ message.attachment.url }}">Download attachment</a></p>
+            {% endif %}
+            <p><small>Sent by {{ message.sender.username }} to {{ message.receiver.username }} at {{ message.created_at }}</small></p>
+        </li>
+        {% empty %}
+        <li>No messages found.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'user' pk=user.id %}">Send a new message</a>
+</div>
+
+<style>
+    .messages-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .message {
+        max-width: 60%;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 10px;
+        clear: both;
+    }
+    .message.sent {
+        background-color: #d1e7dd;
+        margin-left: auto;
+        text-align: right;
+    }
+    .message.received {
+        background-color: #f8d7da;
+        margin-right: auto;
+        text-align: left;
+    }
+</style>
+
+{% endblock %}
