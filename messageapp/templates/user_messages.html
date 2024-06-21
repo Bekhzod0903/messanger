@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2>Messages between {{ user.username }} and {{ request.user.username }}</h2>
+        <ul class="messages-list">
+            {% for message in messages %}
+                <li class="message {% if message.sender == request.user %}sent{% else %}received{% endif %}">
+                    <div class="message-content">
+                        <p>{{ message.text }}</p>
+
+                        <p class="message-meta">
+                            <small>Sent by {{ message.sender.username }} to {{ message.receiver.username }}</small>
+                        </p>
+                    </div>
+                </li>
+            {% empty %}
+                <li>No messages found.</li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'user' pk=user.id %}" class="new-message-link">Back to chat</a>
+    </div>
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .messages-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            clear: both;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+        }
+
+        .message p {
+            margin: 5px 0;
+        }
+
+        .attachment {
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+        }
+
+        .message-meta {
+            margin-top: 5px;
+            color: #999;
+        }
+
+        /* Updated styles for sent and received messages */
+        .message.sent {
+            float: right;
+            clear: both;
+            background-color: #d3eadd; /* Light blue (ochre) */
+        }
+
+        .message.received {
+            float: left;
+            clear: both;
+            background-color: #c3e7f8; /* Light green (teal) */
+        }
+
+        .new-message-link {
+            display: block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .new-message-link:hover {
+            color: #2980b9;
+        }
+    </style>
+{% endblock %}

@@ -2,113 +2,115 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Django App{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Message App{% endblock %}</title>
+    <!-- Link to Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- Embedded CSS styles -->
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background-color: #f0f2f5;
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        header {
+            background: #3498db;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
             align-items: center;
         }
 
-        h1 {
-            color: #333;
-            margin-top: 20px;
-            background-color: #3498db;
-            padding: 10px 20px;
-            border-radius: 8px;
-            color: white;
-        }
-
-        a {
-            text-decoration: none;
-            color: white;
-            margin: 0 10px;
-            transition: color 0.3s;
-        }
-
-        a:hover {
-            text-decoration: underline;
-            color: #e3f2fd;
-        }
-
-        nav {
-            margin: 20px 0;
-            background-color: #3498db;
-            padding: 10px 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        nav a {
-            font-weight: bold;
-            padding: 10px 15px;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        nav a:hover {
-            background-color: #2980b9;
-        }
-
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-            border-radius: 8px;
-        }
-
-        ul {
-            list-style: none;
+        nav ul {
+            list-style-type: none;
             padding: 0;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
         }
 
-        ul li {
-            background: #f9f9f9;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        nav ul li {
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px; /* Rounded corners */
             transition: background-color 0.3s;
+            display: inline-block; /* Ensures elements behave like blocks */
+            border: 1px solid transparent; /* Transparent border for spacing */
         }
 
-        ul li:hover {
-            background-color: #e8e8e8;
+        nav ul li a:hover {
+            background-color: #2980b9;
+            border-color: #2980b9; /* Match background color on hover */
+        }
+
+        .auth-buttons-container {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .auth-buttons {
+            background: #2980b9;
+            border: 1px solid transparent; /* Transparent border for spacing */
+            border-radius: 4px; /* Rounded corners */
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+            text-decoration: none; /* Remove underline */
+            display: inline-block; /* Ensures elements behave like blocks */
+        }
+
+        .auth-buttons:hover {
+            background: #1e6ea6;
+            border-color: #1e6ea6; /* Match background color on hover */
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to Pomidor Messenger, {{ user.username }}</h1>
-
-    <nav>
-        <a href="{% url 'users:register' %}">Register</a>
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'users:logout' %}">Logout</a>
-            <a href="{% url 'users:profile' %}">Profile</a>
-            <!-- Add additional links as needed -->
-        {% else %}
-            <a href="{% url 'users:login' %}">Login</a>
-        {% endif %}
-    </nav>
-
-    <div class="container">
+    <header>
+        <nav class="navbar">
+            <ul>
+                <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons-container">
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:logout' %}"><button class="auth-buttons">Logout</button></a>
+                <a href="{% url 'users:profile' %}"><button class="auth-buttons">Profile</button></a>
+                <a href="{% url 'about-site' %}">
+                    <button class="auth-buttons">About</button>
+</a>            {% else %}
+                <div class="auth-buttons-container">
+                    <a href="{% url 'users:register' %}"><button class="auth-buttons">Register</button></a>
+                    <a href="{% url 'users:login' %}"><button class="auth-buttons">Login</button></a>
+                </div>
+            {% endif %}
+        </div>
+    </header>
+    <main>
         {% block content %}
         {% endblock %}
-
-        <h2>Users</h2>
-        <ul>
-            {% for u in users %}
-                <li>{{ user.username }}</li>
-            {% empty %}
-                <li>No users found.</li>
-            {% endfor %}
-        </ul>
-    </div>
+    </main>
 </body>
 </html>

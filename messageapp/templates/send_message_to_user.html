@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}{{ user.username }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <h2 class="title">Send a message to {{ user.username }}</h2>
+        <form method="post" enctype="multipart/form-data" class="form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button-submit">Send Message</button>
+        </form>
+        <nav class="nav">
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+            </ul>
+        </nav>
+    </div>
+{% endblock %}
+
+<style>
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .title {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .form {
+        margin-bottom: 20px;
+    }
+
+    .form label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+        font-weight: bold;
+    }
+
+    .form input[type="text"],
+    .form textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        margin-bottom: 10px;
+        transition: border-color 0.3s;
+    }
+
+    .form input[type="text"]:focus,
+    .form textarea:focus {
+        outline: none;
+        border-color: #3498db;
+    }
+
+    .button-submit {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .button-submit:hover {
+        background-color: #2980b9;
+    }
+
+    .nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav ul li {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .nav ul li a {
+        color: #333;
+        text-decoration: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+
+    .nav ul li a:hover {
+        background-color: #f0f0f0;
+    }
+</style>
